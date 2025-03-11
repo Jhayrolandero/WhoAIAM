@@ -1,15 +1,28 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
+interface Convo {
+  role: string;
+  message: string;
+}
+
 export const useChat = () => {
   const [streamedData, setStreamedData] = useState("");
+  const [convo, setConvo] = useState<Convo[]>([]);
+
   const [isThinking, setIsThinking] = useState(false);
 
   const { mutateAsync: startChat, isPending: chatPending } = useMutation({
     mutationFn: async (message: string) => {
       // Clear the previous streamed data
+      const userIn = {
+        role: "user",
+        message,
+      };
       setStreamedData("");
       setIsThinking(true);
+
+      setConvo((prev) => [...prev, userIn]);
 
       const response = await fetch("/api/chat", {
         method: "POST",
@@ -32,6 +45,7 @@ export const useChat = () => {
         throw new Error("No reader available");
       }
 
+      let messageIn = "";
       // Process the streamed data
       while (true) {
         const { done, value } = await reader.read();
@@ -39,7 +53,15 @@ export const useChat = () => {
 
         const chunk = decoder.decode(value, { stream: true });
         setStreamedData((prev) => prev + chunk); // Update state with each chunk
+        messageIn += chunk;
       }
+
+      const aiRes: Convo = {
+        role: "ai",
+        message: messageIn,
+      };
+
+      setConvo((prev) => [...prev, aiRes]);
 
       return true;
     },
@@ -50,5 +72,6 @@ export const useChat = () => {
     startChat,
     chatPending,
     isThinking,
+    convo,
   };
 };

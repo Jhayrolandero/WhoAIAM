@@ -4,9 +4,10 @@ import { useChat } from "@/hooks/useChat";
 import { Ban, SendHorizontal } from "lucide-react";
 import React, { FormEvent, useState } from "react";
 import Markdown from "markdown-to-jsx";
+import MessageBox from "@/components/common/MeesageBox";
 
 const Chat = () => {
-  const { startChat, streamedData, chatPending, isThinking } = useChat();
+  const { startChat, streamedData, chatPending, isThinking, convo } = useChat();
   const [formData, setFormData] = useState({
     message: "",
   });
@@ -35,13 +36,13 @@ const Chat = () => {
 
   return (
     <div className="grid grid-rows-[1fr_auto] h-screen w-full ">
-      {isThinking && "Thinking..."}
-      <div className="p-4 overflow-y-auto">
-        <Markdown className="prose text-white text-[1rem] leading-7">
-          {streamedData}
-        </Markdown>
-
-        {/* <pre>{streamedData}</pre> */}
+      <div className="p-4 overflow-y-auto space-y-5">
+        {convo &&
+          convo.map((con) => (
+            <MessageBox message={con.message} user={con.role} />
+          ))}
+        {isThinking && "Thinking..."}
+        {chatPending && <MessageBox message={streamedData} user={"ai"} />}
       </div>
       <form onSubmit={handleSubmit} className="sticky bottom-0 px-3">
         <Input
