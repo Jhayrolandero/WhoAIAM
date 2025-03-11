@@ -1,6 +1,7 @@
 import Markdown from "markdown-to-jsx";
 import React, { Children, useContext } from "react";
 import Code from "../ui/code";
+import { Bot, PersonStanding } from "lucide-react";
 
 const MessageBox: React.FC<{
   children?: React.ReactNode;
@@ -9,8 +10,11 @@ const MessageBox: React.FC<{
 }> = ({ children, message, user }) => {
   //   const {userState, setUserState} = useContext(UserContext);
 
+  if (!message) return null;
   const Pre = ({ children }: { children: string }) => (
-    <pre className="bg-[#2F2F2F]  border-[1px] px-2 py-1">{children}</pre>
+    <pre className="bg-[#36383A]  border-[1px]  rounded-sm my-4">
+      {children}
+    </pre>
   );
 
   const H3 = ({ children }: { children: string }) => (
@@ -23,27 +27,30 @@ const MessageBox: React.FC<{
 
   return (
     <div
-    //   className={`grid w-full ${
-    //     entity === "user"
-    //       ? "place-items-end grid-cols-[1fr_auto]"
-    //       : "grid-cols-[auto_1fr]"
-    //   } gap-1`}
+      className={`grid w-full ${
+        user === "user"
+          ? "place-items-end grid-cols-[1fr_auto]"
+          : "grid-cols-[auto_1fr]"
+      } gap-1`}
     >
-      {/* <div className={`rounded-lg max-h-max ${entity === 'user' ? 'order-2' : 'order-1'}`}>
-          {
-            entity === 'user'
-            ?
-            <div className='size-8 rounded-lg'>
-              <img className='w-full h-full aspect-square' src={userState.userState.profile_url} alt={userState.userState.display_name} />
-            </div>
-            :
-            <div className="size-8 rounded-lg bg-[#0080FF] p-[0.1em] ">
-              <IoLogoIonic  className=" w-full h-full aspect-square"/>
-            </div>
-          }
-        </div> */}
       <div
-        className={`${user === "ai" && "bg-[#1e1e1e]"} p-2 rounded-md`}
+        className={`rounded-lg max-h-max ${
+          user === "user" ? "order-2" : "order-1"
+        }`}
+      >
+        {user === "user" ? (
+          <div className="size-8 rounded-lg">
+            <PersonStanding className=" w-full h-full aspect-square" />
+            {/* <img className='w-full h-full aspect-square' src={userState.userState.profile_url} alt={userState.userState.display_name} /> */}
+          </div>
+        ) : (
+          <div className="size-8 rounded-lg bg-[#0080FF] p-[0.1em] ">
+            <Bot className=" w-full h-full aspect-square" />
+          </div>
+        )}
+      </div>
+      <div
+        className={`${user === "user" && "bg-[#2D2E2F]"} px-3 py-2 rounded-lg`}
         // className={`${
         //   entity === "user" ? "order-1 max-w-[70%]" : "order-2"
         // } px-4 space-y-3 py-2 rounded-md flex flex-col group`}

@@ -35,8 +35,8 @@ const Chat = () => {
   };
 
   return (
-    <div className="grid grid-rows-[1fr_auto] h-screen w-full ">
-      <div className="p-4 overflow-y-auto space-y-5">
+    <div className="grid grid-rows-[1fr_auto] no-bar  w-full ">
+      <div className="p-4 overflow-y-auto no-bar space-y-5 ">
         {convo &&
           convo.map((con) => (
             <MessageBox message={con.message} user={con.role} />
@@ -52,7 +52,7 @@ const Chat = () => {
           required
           value={formData.message}
           onChange={handleInputChange}
-          className="h-14 rounded-full border border-white text-white text-base placeholder:text-white"
+          className="h-14 bg-[#1e1e1e] rounded-full border border-white text-white text-base placeholder:text-white"
           placeholder="Input something to chat"
         />
         <button

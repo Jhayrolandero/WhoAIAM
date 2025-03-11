@@ -14,7 +14,7 @@ const Code: React.FC<CodeProps> = ({ children, className }) => {
     return <strong className="">{String(children).replace(/\n$/, "")}</strong>;
   } else {
     return (
-      <div className="relative w-full">
+      <div className="relative w-full rounded-4xl">
         {/* <button
           onClick={() => {
             navigator.clipboard.writeText(String(children));
@@ -23,8 +23,24 @@ const Code: React.FC<CodeProps> = ({ children, className }) => {
         >
           <IoCopyOutline /> Copy
         </button> */}
-        <span className="border-b-[1px] border-white w-full">{language}</span>
-        <SyntaxHighlighter language={language} style={materialDark}>
+        <span className="border-b-[1px] h-2 border-white w-full">
+          <p className="p-2">{language}</p>
+        </span>
+        <SyntaxHighlighter
+          customStyle={{ background: "#121314", margin: 0 }}
+          language={language}
+          style={{
+            ...materialDark,
+            'pre[class*="language-"]': {
+              ...materialDark['pre[class*="language-"]'],
+              background: "none", // Remove background from the <pre> element
+            },
+            'code[class*="language-"]': {
+              ...materialDark['code[class*="language-"]'],
+              background: "none", // Remove background from the <code> element
+            },
+          }}
+        >
           {String(children).replace(/\n$/, "")}
         </SyntaxHighlighter>
       </div>

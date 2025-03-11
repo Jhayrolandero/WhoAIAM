@@ -40,15 +40,13 @@ export default function RootLayout({
         <Providers>
           <SidebarProvider>
             {/* <AppSidebar /> */}
-            <main className="grid grid-rows-[auto_1fr] w-full bg-[#282424] text-white px-[20svw] ">
-              {/* <header className="h-12 flex items-center sticky top-0 bg-[#1e1e1e]"> */}
-              {/* <SidebarTrigger /> */}
+            <main className="grid grid-rows-[auto_1fr] no-bar w-full bg-[#1e1e1e] text-white ">
+              <header className="h-12 flex items-center sticky top-0 ">
+                {/* <SidebarTrigger /> */}
 
-              {/* <h4>
-                <Send /> Who ai am?
-              </h4> */}
-              {/* </header> */}
-              <div>{children}</div>
+                <h4 className="font-medium text-xl">Who AI am?</h4>
+              </header>
+              <div className="px-[28svw] no-bar">{children}</div>
             </main>
           </SidebarProvider>
         </Providers>

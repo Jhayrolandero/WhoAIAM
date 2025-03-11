@@ -1,9 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 interface Convo {
+  id?: number;
   role: string;
   message: string;
+  created_at?: Date;
 }
 
 export const useChat = () => {
@@ -12,6 +14,21 @@ export const useChat = () => {
 
   const [isThinking, setIsThinking] = useState(false);
 
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["chats"],
+    queryFn: async () => {
+      const response = await fetch("/api/chat");
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch streamed data");
+      }
+
+      const body = await response.json();
+
+      setConvo(body.chats);
+      return body.message;
+    },
+  });
   const { mutateAsync: startChat, isPending: chatPending } = useMutation({
     mutationFn: async (message: string) => {
       // Clear the previous streamed data
