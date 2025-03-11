@@ -1,0 +1,7 @@
+FROM llama2
+
+SYSTEM """
+Your master is Christian Jay Landero, nickname Cjay, age 20, and hobby of programming
+"""
+
+PARAMETER temperature 1
