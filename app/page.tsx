@@ -1,52 +1,15 @@
-// "use client";
-// import { useQuery } from "@tanstack/react-query";
-// import React, { useEffect, useState } from "react";
-
-// const Home = () => {
-//   const [streamedData, setStreamedData] = useState("");
-
-//   const { data, isLoading, error } = useQuery({
-//     queryKey: ["ai-reponse"],
-//     queryFn: async () => {
-//       const response = await fetch("/api/chat");
-
-//       if (!response.ok) {
-//         throw new Error("Failed to fetch streamed data");
-//       }
-
-//       const reader = response.body?.getReader();
-//       const decoder = new TextDecoder();
-
-//       if (!reader) {
-//         throw new Error("No reader available");
-//       }
-
-//       // Process the streamed data
-//       while (true) {
-//         const { done, value } = await reader.read();
-//         if (done) break;
-
-//         const chunk = decoder.decode(value, { stream: true });
-//         setStreamedData((prev) => prev + chunk); // Update state with each chunk
-//       }
-
-//       return true;
-//     },
-//   });
-
-//   return (
-//     <div>
-//       <p>{isLoading}</p>
-//       {streamedData}
-//     </div>
-//   );
-// };
-
-// export default Home;
+import { BackgroundLines } from "@/components/ui/background-lines";
 import React from "react";
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <BackgroundLines className="flex flex-col justify-center items-center h-full">
+      <h4 className="text-7xl text-transparent bg-clip-text font-bold bg-gradient-to-r from-gray-400 to-white">
+        SHAD AI
+      </h4>
+      <p>Prompt like never before</p>
+    </BackgroundLines>
+  );
 };
 
 export default Home;

@@ -135,3 +135,33 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.title-text {
+  background: #c1c4cf;
+  background: linear-gradient(to top, #c1c4cf 33%, #f5f5f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Light scrollbar track (background) */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+/* Dark scrollbar track (background) */
+::-webkit-scrollbar-track {
+  background: #2d2d2d; /* Dark background color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Dark scrollbar thumb (the moving part) */
+::-webkit-scrollbar-thumb {
+  background: #555; /* Dark thumb color */
+  border-radius: 10px; /* Rounded corners */
+  border: 3px solid #2d2d2d; /* Padding around the thumb */
+}
+
+/* Dark scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #777; /* Lighter color on hover */
+}

@@ -2,15 +2,31 @@
 import { Input } from "@/component/ui/input";
 import { useChat } from "@/hooks/useChat";
 import { Ban, SendHorizontal } from "lucide-react";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import Markdown from "markdown-to-jsx";
 import MessageBox from "@/components/common/MeesageBox";
 
 const Chat = () => {
-  const { startChat, streamedData, chatPending, isThinking, convo } = useChat();
+  const {
+    startChat,
+    streamedData,
+    chatPending,
+    isThinking,
+    convo,
+    fetchingChat,
+  } = useChat();
+
+  const bottomRef = useRef<any>(null);
+
   const [formData, setFormData] = useState({
     message: "",
   });
+
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [convo]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -34,9 +50,17 @@ const Chat = () => {
     }));
   };
 
+  if (fetchingChat) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <p className="font-bold text-xl">Recalling Memory</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-rows-[1fr_auto] no-bar  w-full ">
-      <div className="p-4 overflow-y-auto no-bar space-y-5 ">
+    <div className="grid grid-rows-[1fr_auto_auto] no-bar  w-full ">
+      <div className="p-4 overflow-y-auto no-bar space-y-5">
         {convo &&
           convo.map((con) => (
             <MessageBox message={con.message} user={con.role} />
@@ -44,7 +68,12 @@ const Chat = () => {
         {isThinking && "Thinking..."}
         {chatPending && <MessageBox message={streamedData} user={"ai"} />}
       </div>
-      <form onSubmit={handleSubmit} className="sticky bottom-0 px-3">
+      <div ref={bottomRef}></div>
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex h-full items-center justify-between sticky bottom-0 px-3 pb-1"
+      >
         <Input
           id="message"
           type="message"
@@ -52,17 +81,19 @@ const Chat = () => {
           required
           value={formData.message}
           onChange={handleInputChange}
-          className="h-14 bg-[#1e1e1e] rounded-full border border-white text-white text-base placeholder:text-white"
-          placeholder="Input something to chat"
+          className="h-14 bg-[#070606] rounded-full border border-white text-white text-base placeholder:text-white px-2"
+          placeholder="Ask Shad anything"
         />
         <button
           className="absolute right-7 top-1/2 -translate-y-1/2"
           disabled={chatPending}
         >
           {chatPending ? (
-            <Ban className="stroke-white" />
+            <Ban className="stroke-gray-500" />
           ) : (
-            <SendHorizontal className="stroke-white" />
+            <SendHorizontal
+              className={`stroke-white ${chatPending && "stroke-gra"}`}
+            />
           )}
         </button>
       </form>

@@ -14,7 +14,11 @@ export const useChat = () => {
 
   const [isThinking, setIsThinking] = useState(false);
 
-  const { data, isLoading, error } = useQuery({
+  const {
+    data,
+    isLoading: fetchingChat,
+    error,
+  } = useQuery({
     queryKey: ["chats"],
     queryFn: async () => {
       const response = await fetch("/api/chat");
@@ -90,5 +94,6 @@ export const useChat = () => {
     chatPending,
     isThinking,
     convo,
+    fetchingChat,
   };
 };
