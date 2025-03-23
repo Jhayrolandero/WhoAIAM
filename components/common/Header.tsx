@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import SettingsDropdown from "./SettingsDropdown";
+import { HoverBorderGradient } from "../ui/hover-border-gradient";
 
 const Header = () => {
   const pathname = usePathname();
@@ -17,12 +19,20 @@ const Header = () => {
       <Link href="/">
         <h4 className=" text-xl font-bold">SHAD AI</h4>
       </Link>
-      {pathname === "/" && (
+      {pathname === "/" ? (
         <Link href="/chat">
-          <button className="cursor-pointer transition-all hover:scale-105 ">
+          <HoverBorderGradient
+            containerClassName="rounded-full"
+            as="button"
+            className="cursor-pointer bg-black text-white dark:text-white flex items-center space-x-2"
+          >
             Try now
-          </button>
+          </HoverBorderGradient>
+          {/* <button className="cursor-pointer transition-all hover:scale-105 "> */}
+          {/* </button> */}
         </Link>
+      ) : (
+        <SettingsDropdown />
       )}
     </header>
   );

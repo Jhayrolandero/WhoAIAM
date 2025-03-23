@@ -2,6 +2,38 @@ import { NextResponse } from "next/server";
 import { Ollama } from "ollama";
 import { handleDb } from "@/lib/db";
 
+export const DELETE = async () => {
+  try {
+    const db = await handleDb();
+
+    // Delete all records from the chats table
+    await new Promise<void>((resolve, reject) => {
+      db.run("DELETE FROM chats;", (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    return NextResponse.json(
+      {
+        message: "All chat records have been deleted successfully.",
+      },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.error("Error:", err);
+    return NextResponse.json(
+      {
+        message: "An error occurred while deleting chat records.",
+      },
+      { status: 500 }
+    );
+  }
+};
+
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
@@ -26,7 +58,7 @@ export const POST = async (req: Request) => {
     }));
     // Start the Ollama chat stream
     const response = await ollama.chat({
-      model: "master",
+      model: "my-model1",
       messages: [...messageIn, { role: "user", content: message }],
       stream: true,
     });

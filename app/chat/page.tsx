@@ -5,6 +5,8 @@ import { Ban, SendHorizontal } from "lucide-react";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import Markdown from "markdown-to-jsx";
 import MessageBox from "@/components/common/MeesageBox";
+import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
+import { FlipWords } from "@/components/ui/flip-words";
 
 const Chat = () => {
   const {
@@ -22,6 +24,12 @@ const Chat = () => {
     message: "",
   });
 
+  const words = [
+    "Ask Shad AI Anything",
+    "What's the weather today?",
+    "Will i pass the class?",
+    "Let Shad AI cook",
+  ];
   useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
@@ -44,22 +52,27 @@ const Chat = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData({
+      message: value,
+    });
   };
 
   if (fetchingChat) {
     return (
-      <div className="flex justify-center items-center h-full">
-        <p className="font-bold text-xl">Recalling Memory</p>
+      <div className="flex justify-center items-center w-full h-full">
+        <div className="fetchLoader"></div>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-rows-[1fr_auto_auto] no-bar  w-full ">
+    <div
+      className={`${
+        convo.length < 1
+          ? "flex w-full h-full justify-center items-center"
+          : `grid grid-rows-[1fr_auto_auto] no-bar w-full h-full`
+      }`}
+    >
       <div className="p-4 overflow-y-auto no-bar space-y-5">
         {convo &&
           convo.map((con) => (
@@ -70,11 +83,25 @@ const Chat = () => {
       </div>
       <div ref={bottomRef}></div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="flex h-full items-center justify-between sticky bottom-0 px-3 pb-1"
+      <div
+        // onSubmit={handleSubmit}
+        className={`flex h-full items-center flex-col space-y-4 ${
+          convo.length > 0 ? "justify-between" : "justify-center"
+        } sticky bottom-0 px-3 pb-1`}
       >
-        <Input
+        {convo.length < 1 && (
+          <FlipWords className="text-3xl text-[#F0F0F0]" words={words} />
+          // <p className="text-2xl font-bold">Ask SHAD AI Anything</p>
+        )}
+        <PlaceholdersAndVanishInput
+          placeholders={["Birthday gifts", "Who am i", "Favorite color"]}
+          onChange={handleInputChange}
+          onSubmit={(e: FormEvent) => {
+            e.preventDefault();
+            handleSubmit(e);
+          }}
+        />
+        {/* <Input
           id="message"
           type="message"
           name="message"
@@ -83,8 +110,8 @@ const Chat = () => {
           onChange={handleInputChange}
           className="h-14 bg-[#070606] rounded-full border border-white text-white text-base placeholder:text-white px-2"
           placeholder="Ask Shad anything"
-        />
-        <button
+        /> */}
+        {/* <button
           className="absolute right-7 top-1/2 -translate-y-1/2"
           disabled={chatPending}
         >
@@ -95,8 +122,8 @@ const Chat = () => {
               className={`stroke-white ${chatPending && "stroke-gra"}`}
             />
           )}
-        </button>
-      </form>
+        </button> */}
+      </div>
     </div>
   );
 };
