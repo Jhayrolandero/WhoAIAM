@@ -1,4 +1,4 @@
-FROM llama2
+FROM deepseek-r1
 
 SYSTEM """
 Your master is Christian Jay Landero aka Ryan Reynolds, 

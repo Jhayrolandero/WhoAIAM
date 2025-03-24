@@ -11,10 +11,14 @@ const Code: React.FC<CodeProps> = ({ children, className }) => {
   const language = className ? className.replace("lang-", "") : "";
 
   if (language === "") {
-    return <strong className="">{String(children).replace(/\n$/, "")}</strong>;
+    return (
+      <strong className="w-full text-wrap">
+        {String(children).replace(/\n$/, "")}
+      </strong>
+    );
   } else {
     return (
-      <div className="relative w-full rounded-4xl">
+      <div className="relative w-full text-wrap rounded-4xl">
         {/* <button
           onClick={() => {
             navigator.clipboard.writeText(String(children));

@@ -71,17 +71,21 @@ const Chat = () => {
         convo.length < 1
           ? "flex w-full h-full justify-center items-center"
           : `grid grid-rows-[1fr_auto_auto] no-bar w-full h-full`
-      }`}
+      } container`}
     >
-      <div className="p-4 overflow-y-auto no-bar space-y-5">
-        {convo &&
-          convo.map((con) => (
-            <MessageBox message={con.message} user={con.role} />
-          ))}
-        {isThinking && "Thinking..."}
-        {chatPending && <MessageBox message={streamedData} user={"ai"} />}
-      </div>
-      <div ref={bottomRef}></div>
+      {convo.length > 0 && (
+        <>
+          <div className="p-4 overflow-y-auto no-bar space-y-5">
+            {convo &&
+              convo.map((con, idx) => (
+                <MessageBox key={idx} message={con.message} user={con.role} />
+              ))}
+            {isThinking && "Thinking..."}
+            {chatPending && <MessageBox message={streamedData} user={"ai"} />}
+          </div>
+          <div ref={bottomRef}></div>
+        </>
+      )}
 
       <div
         // onSubmit={handleSubmit}

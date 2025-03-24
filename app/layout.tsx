@@ -40,7 +40,9 @@ export default function RootLayout({
           <SidebarProvider>
             <main className="grid grid-rows-[auto_1fr] no-bar w-full  bg-[#070606] text-[#F0F0F0] ">
               <Header />
-              <div className="px-4 lg:px-[28svw] no-bar">{children}</div>
+              <div className="px-4 lg:px-[20svw] no-bar mx-auto">
+                {children}
+              </div>
             </main>
           </SidebarProvider>
         </Providers>

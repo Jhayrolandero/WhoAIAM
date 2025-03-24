@@ -58,7 +58,7 @@ export const POST = async (req: Request) => {
     }));
     // Start the Ollama chat stream
     const response = await ollama.chat({
-      model: "my-model1",
+      model: "deepseek",
       messages: [...messageIn, { role: "user", content: message }],
       stream: true,
     });
